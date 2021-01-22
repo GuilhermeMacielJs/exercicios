@@ -72,7 +72,7 @@ app.get('/pergunta/:id', (req, res) => {
 })
 
 app.get('/responder', (req, res) => {
-
+    
 })
 
 app.listen(8090, () => {
