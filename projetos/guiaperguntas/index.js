@@ -22,32 +22,57 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+/*Rota principal*/
 app.get('/', (req, res) => {
-    res.render('index.ejs')
+    Pergunta.findAll({
+        raw: true,
+        order: [
+            ['id', 'DESC']
+        ]
+    }).then(perguntas => {
+        res.render('index.ejs', {
+            perguntas: perguntas
+        })
+    })
 })
 
 app.get('/perguntar', (req, res) => {
     res.render('perguntar.ejs')
 })
 
-app.get('/salvarpergunta', (req, res) => {
+app.post('/salvarpergunta', (req, res) => {
     var titulo = req.body.titulo
     var descricao = req.body.descricao
+
+    console.log(titulo)
 
     Pergunta.create({
         titulo: titulo,
         descricao: descricao
-    }).then(() => { 
+    }).then(() => {
         res.redirect('/')
     })
 })
 
-app.get('/responder', (req, res) => { 
-    
+app.get('/pergunta/:id', (req, res) => {
+    var id = req.params.id
+    Pergunta.findOne({
+        where: {
+            id: id
+        }
+    }).then(pergunta => {
+        if (pergunta !== null) {
+            res.render('pergunta', {
+                pergunta: pergunta
+            })
+        } else {
+            res.redirect('/')
+        }
+    })
 })
 
-app.get('/pergunta/:id', (req, res) => { 
-    var id = req.params.id
+app.get('/responder', (req, res) => {
+
 })
 
 app.listen(8090, () => {
