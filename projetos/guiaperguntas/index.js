@@ -54,25 +54,38 @@ app.post('/salvarpergunta', (req, res) => {
     })
 })
 
-app.get('/pergunta/:id', (req, res) => {
-    var id = req.params.id
-    Pergunta.findOne({
-        where: {
-            id: id
-        }
-    }).then(pergunta => {
-        if (pergunta !== null) {
-            res.render('pergunta', {
-                pergunta: pergunta
-            })
-        } else {
-            res.redirect('/')
-        }
+app.post('/responder', (req, res) => {
+    var corpo = req.body.corpo
+    var perguntaId = req.body.pergunta
+
+    Resposta.create({
+        corpo: corpo,
+        perguntaId: perguntaid
+    }).then(() => {
+        res.redirect('/pergunta/' + perguntaId)
     })
 })
 
-app.get('/responder', (req, res) => {
-    
+app.get('/pergunta/:id', (req, res) => { 
+    var id = req.params.id
+    Pergunta.findOne({
+        where: {id:id}
+    }).then(pergunta => {
+        if (pergunta != undefined) {
+            Resposta.findAll({
+                where:{perguntaID: perguntaid}
+            }).then(respostas => {
+                res.render(pergunta.ejs, {
+                    pergunta:pergunta,
+                    respostas: respostas
+                    
+                })
+            })
+        }
+        else {
+            res.redirect('/')
+        }
+    })
 })
 
 app.listen(8090, () => {

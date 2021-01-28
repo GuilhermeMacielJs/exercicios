@@ -9,17 +9,17 @@
                 <hr>
                 <form action="/responder" method="POST">
                     <label for="">Responder:</label>
-                    <textarea name="" class="form-control"></textarea>
-                    <button class="btn btn-primary mt-4">Responder</button>
+                    <textarea placeholder="Digite sua resposta" name="corpo" class="form-control"></textarea>
+                    <input type="hidden" name="pergunta" value="">
+                    <button type="submit" class="btn btn-primary mt-4">Responder</button>
                 </form>
                 <hr>
                 <h2>Respostas:</h2>
                 <hr>
-                <div class="card">
-                    <div class="card-body">
-                        <p>respostas</p>
+                    <div class="card">
+                        <div class="card-body"> 
+                        </div>
                     </div>
-                </div>
             </div>
     </body>
     <%- include('partials/footer.ejs')%>
